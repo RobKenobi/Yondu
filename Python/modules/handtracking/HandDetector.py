@@ -6,11 +6,12 @@ import numpy as np
 class HandDetector():
     def __init__(self, static_image_mode=False, max_num_hands=2, min_detection_confidence=0.5,
                  min_tracking_confidence=0.5):
+
         # Initialisation of mp.Hands
-        self.static_image_mode = static_image_mode
-        self.max_num_hands = max_num_hands
-        self.min_detection_confidence = min_detection_confidence
-        self.min_tracking_confidence = min_tracking_confidence
+        self.static_image_mode = static_image_mode  # indicates whether the image is static or not
+        self.max_num_hands = max_num_hands          # maximum number of hands detected
+        self.min_detection_confidence = min_detection_confidence    # probability threshold that there is a hand
+        self.min_tracking_confidence = min_tracking_confidence      # probability threshold of the position of the hand
 
         # MediaPipe
         self.mpHands = mp.solutions.hands
@@ -42,7 +43,7 @@ class HandDetector():
                     self.mpDraw.draw_landmarks(image, HandLandmarks, self.mpHands.HAND_CONNECTIONS,
                                                self.mpDraw.DrawingSpec(color=(0, 0, 0), thickness=6,
                                                                        circle_radius=2),
-                                               self.mpDraw.DrawingSpec(color=(128,128,128), thickness=2,
+                                               self.mpDraw.DrawingSpec(color=(128, 128, 128), thickness=2,
                                                                        circle_radius=0))
 
         return success, image
