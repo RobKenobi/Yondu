@@ -21,4 +21,6 @@ while True:
         visu.draw_overlays_all(img, commands)
 
     cv2.imshow("Image", img)
-    cv2.waitKey(1)
+    # Press "e" to exit
+    if cv2.waitKey(1) == ord("e"):
+        break
