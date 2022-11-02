@@ -1,4 +1,4 @@
-from modules.handtracking import HandDetector, HandProcessing
+from modules.handtracking import HandDetector, HandProcessing, Visualisation
 import cv2
 
 # Detect the presence of a hand
@@ -7,6 +7,7 @@ detector = HandDetector()
 # Translate hand gestures into command
 interpreter = HandProcessing(detector)
 
+visu = Visualisation()
 cap = cv2.VideoCapture(0)
 
 while True:
@@ -17,6 +18,7 @@ while True:
 
     if success:
         commands = interpreter.create_hand_commands(img)
-        print(len(commands))
-    else:
-        print(0)
+        visu.draw_overlays_all(img, commands)
+
+    cv2.imshow("Image", img)
+    cv2.waitKey(1)

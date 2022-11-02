@@ -8,3 +8,7 @@ class HandCommand:
 
     def get_handLandmarks(self):
         return self._handLandmarks
+
+    def get_infos(self):
+        return self._HandNo, self._handedness, self._position, self._gesture
+
