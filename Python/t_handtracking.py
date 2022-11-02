@@ -7,7 +7,9 @@ detector = HandDetector()
 # Translate hand gestures into command
 interpreter = HandProcessing(detector)
 
+# Object for visualisation
 visu = Visualisation()
+
 cap = cv2.VideoCapture(0)
 
 while True:
