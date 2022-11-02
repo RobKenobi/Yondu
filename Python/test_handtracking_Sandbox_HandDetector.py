@@ -1,4 +1,4 @@
-import modules.handtracking as ht
+import modules.handtracking.Sandbox.HandDetector as ht
 import cv2
 
 cap = cv2.VideoCapture(0)

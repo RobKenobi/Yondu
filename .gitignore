@@ -133,3 +133,6 @@ MATLAB/resources/
 
 # Powerpoint
 *~$*
+
+# PyCharm
+.idea/
