@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # MATLAB
-MATLAB/resources/
+*.slxc
 
 # Powerpoint
 *~$*
