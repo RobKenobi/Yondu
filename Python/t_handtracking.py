@@ -10,16 +10,25 @@ interpreter = HandProcessing(detector)
 # Object for visualisation
 visu = Visualisation()
 
+# Image feed
 cap = cv2.VideoCapture(0)
 
 while True:
-    success, image = cap.read()
+    # Reading image from camera
+    _, image = cap.read()
+
+    # Flipping image
     img = cv2.flip(image, 1)
 
-    success = detector.hands_detection(img)
+    # Finding whether at least one hand is present on the picture
+    hand_detected = detector.hands_detection(img)
 
-    if success:
+    # If at least one hand has been detected
+    if hand_detected:
+        # Compute the list of commands associated to each hand
         commands = interpreter.create_hand_commands(img)
+
+        # Visualisation
         visu.draw_overlays_all(img, commands)
 
     cv2.imshow("Image", img)

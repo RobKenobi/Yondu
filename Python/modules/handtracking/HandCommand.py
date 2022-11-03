@@ -11,4 +11,3 @@ class HandCommand:
 
     def get_infos(self):
         return self._HandNo, self._handedness, self._position, self._gesture
-

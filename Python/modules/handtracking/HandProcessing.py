@@ -20,6 +20,9 @@ class HandProcessing:
 
         return pos_list
 
+    def find_gesture(self):
+        pass
+    
     def create_hand_commands(self, image):
         list_HandCommand = list()
         for HandNo, HandLandmarks in enumerate(self._HandDetector.get_result().multi_hand_landmarks):
