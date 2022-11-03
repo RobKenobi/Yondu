@@ -10,7 +10,7 @@ class Visualisation:
 
     def display_handLandmarks(self, image, commands):
         for command in commands:
-            HandLandmarks = command.get_handLandmarks()
+            HandLandmarks = command.get_hand_landmarks()
             self._mpDraw.draw_landmarks(image, HandLandmarks, self._mpHands.HAND_CONNECTIONS,
                                         self._mpDraw.DrawingSpec(color=(0, 0, 0), thickness=6,
                                                                  circle_radius=2),
@@ -31,7 +31,7 @@ class Visualisation:
             cv2.rectangle(image, (x1, y1), (x2, y2), (211, 93, 63), 3)
 
             cv2.rectangle(image, (x1 - 2, y1 - 20), (x2 + 2, y1), (211, 93, 63), -1)
-            cv2.putText(image, handedness + ": " + gesture, (x1, y1 - 4), cv2.FONT_HERSHEY_COMPLEX,
+            cv2.putText(image, handedness + " : " + gesture, (x1, y1 - 4), cv2.FONT_HERSHEY_COMPLEX,
                         0.6, (255, 255, 255), thickness=1)
 
     def draw_overlays_all(self, image, command):
