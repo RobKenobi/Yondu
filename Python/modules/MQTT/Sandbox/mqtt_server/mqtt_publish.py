@@ -4,7 +4,7 @@ import random
 
 
 broker = "mqtt.eclipseprojects.io"
-broker_port = 8883
+broker_port = 1883
 
 client = mqtt.Client("Client_pub")
 
