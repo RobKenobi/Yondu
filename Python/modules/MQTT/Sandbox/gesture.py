@@ -25,7 +25,6 @@ def on_connect(client, userdata, flags, rc):
 def on_subscribe(client, userdata, mid, granted_qos):
     print("I've subscribed")
 
-
 def on_message(client, userdata, msg):
     print(msg.payload)
     data_ = str(msg.payload).split(",")
