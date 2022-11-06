@@ -1,8 +1,11 @@
 import time
 import paho.mqtt.client as mqtt
 
-broker = "mqtt.eclipseprojects.io"
+
+broker = "123a425d9b0748a39d2d27a7c2d4b7eb.s2.eu.hivemq.cloud"
 broker_port = 8883
+#broker = "mqtt.eclipseprojects.io"
+#broker_port = 1883
 
 
 def on_message(client, userdata, msg):
@@ -15,6 +18,7 @@ def on_message(client, userdata, msg):
 
 client = mqtt.Client("Client_receiv")
 client.connect(broker, broker_port)
+
 
 while True:
     client.loop_start()
