@@ -1,7 +1,7 @@
 import time
 import paho.mqtt.client as mqtt
 import random
-
+import numpy as np
 
 
 #broker = "123a425d9b0748a39d2d27a7c2d4b7eb.s2.eu.hivemq.cloud"
@@ -18,6 +18,7 @@ client.connect(broker, broker_port)
 
 while True:
     number = random.randint(0, 10)
-    client.publish("Rand", number)
+    client.publish("Test_mqtt/randnumber", number)
+    client.publish("Test_mqtt/string", "Pierre")
     print("I pub", number)
     time.sleep(1)
