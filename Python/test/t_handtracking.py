@@ -2,7 +2,7 @@ from modules.handtracking import HandDetector, HandProcessing, Visualisation
 import cv2
 
 # Detect the presence of a hand
-detector = HandDetector()
+detector = HandDetector(max_num_hands=2)
 
 # Translate hand gestures into command
 interpreter = HandProcessing(detector)
@@ -14,7 +14,7 @@ visu = Visualisation()
 cap = cv2.VideoCapture(0)
 
 while True:
-    # Reading image from camera
+    # Getting image from camera
     _, image = cap.read()
 
     # Flipping image
@@ -34,4 +34,9 @@ while True:
     cv2.imshow("Image", img)
     # Press "e" to exit
     if cv2.waitKey(1) == ord("e"):
+        # Closing windows
+        cv2.destroyAllWindows()
+
+        # Turning off camera
+        cap.release()
         break
