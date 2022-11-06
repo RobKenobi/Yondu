@@ -1,4 +1,4 @@
-from Python.modules.handtracking import HandDetector, HandProcessing, Visualisation
+from modules.handtracking import HandDetector, HandProcessing, Visualisation
 import cv2
 
 # Detect the presence of a hand
