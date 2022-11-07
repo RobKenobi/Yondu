@@ -1,3 +1,10 @@
+import os
+import sys
+
+# Add the Python directory to the path
+PYTHON_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(1, PYTHON_DIR)
+
 from modules.handtracking import HandDetector, HandProcessing, Visualisation
 import cv2
 
