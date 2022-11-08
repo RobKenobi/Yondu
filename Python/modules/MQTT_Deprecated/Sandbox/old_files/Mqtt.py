@@ -3,7 +3,7 @@ import time
 import paho.mqtt.client as mqtt
 
 
-# MQTT SETUP
+# MQTT_Deprecated SETUP
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:

@@ -16,7 +16,7 @@ DEVICE_TOKEN = "qKvczqN9k816orMioQeDcM8Cm7MJHdKA"
 # =========== functions ====================================================
 # ----------- NETPIE -----------------------------------------------------
 
-# MQTT functions
+# MQTT_Deprecated functions
 def on_connect(client, userdata, flags, rc):
     print("Result from connect: {}".format(mqtt.connack_string(rc)))
     client.subscribe("@shadow/data/updated")
@@ -24,7 +24,6 @@ def on_connect(client, userdata, flags, rc):
 
 def on_subscribe(client, userdata, mid, granted_qos):
     print("I've subscribed")
-
 
 def on_message(client, userdata, msg):
     print(msg.payload)
@@ -83,7 +82,7 @@ Gesture_index = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 topic = '@msg/thomasthetrain'
 
 # ==================================================================================================
-# MQTT SETUP
+# MQTT_Deprecated SETUP
 client = mqtt.Client(protocol=mqtt.MQTTv311, client_id=CLIENT_ID, clean_session=True)
 client.username_pw_set(DEVICE_TOKEN)
 client.on_connect = on_connect
@@ -138,7 +137,7 @@ while True:
                 if lm_list[tipsIds[i]][2] >= lm_list[mcpIds[i]][2]:
                     FingerState[i] = 0
 
-            # If a gesture is found, publish it's related value via MQTT
+            # If a gesture is found, publish it's related value via MQTT_Deprecated
             for i in range(len(Gesture_index)):
                 if FingerState == Gesture[i]:
                     if time.time() - 2.0 >= time1:
