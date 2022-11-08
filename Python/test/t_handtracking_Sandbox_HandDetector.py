@@ -1,4 +1,11 @@
-import Python.modules.handtracking.Sandbox.HandDetector as ht
+import os
+import sys
+
+# Add the Python directory to the path
+PYTHON_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(1, PYTHON_DIR)
+
+import modules.handtracking.Sandbox.HandDetector as ht
 import cv2
 
 cap = cv2.VideoCapture(0)
