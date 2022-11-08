@@ -1,11 +1,14 @@
-import time
-import paho.mqtt.client as mqtt
+import sys
+import os
 
+PYTHON_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(1, PYTHON_DIR)
 
-#broker = "123a425d9b0748a39d2d27a7c2d4b7eb.s2.eu.hivemq.cloud"
-#broker_port = 8883
+from modules.MQTT import MQTTSubscriber
+
 broker = "mqtt.eclipseprojects.io"
 broker_port = 1883
+client_id = 1
 
 
 def on_message(client, userdata, msg):
@@ -16,13 +19,10 @@ def on_message(client, userdata, msg):
     received_msg = msg_decode
 
 
-client = mqtt.Client("Client_receiv")
-client.connect(broker, broker_port)
+client = MQTTSubscriber(broker, broker_port, client_id, on_message)
 
+client.connect()
+client.subscribe("Rand")
 
 while True:
     client.loop_start()
-    client.subscribe("Rand")
-    client.on_message = on_message
-
-client.loop_stop()

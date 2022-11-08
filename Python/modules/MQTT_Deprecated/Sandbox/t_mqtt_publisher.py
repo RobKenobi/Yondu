@@ -2,10 +2,11 @@ import sys
 import os
 
 # Add Python directory to the path variable
-PYTHON_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PYTHON_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+print(PYTHON_DIR)
 sys.path.insert(1, PYTHON_DIR)
 
-from modules.MQTT import MQTTPublisher
+from modules.MQTT_Deprecated  import MQTTPublisher
 import numpy as np
 import time
 

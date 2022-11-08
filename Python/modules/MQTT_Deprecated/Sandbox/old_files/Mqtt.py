@@ -1,7 +1,9 @@
-# MQTT SETUP
+import RPi.GPIO as GPIO
 import time
 import paho.mqtt.client as mqtt
 
+
+# MQTT_Deprecated SETUP
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -20,8 +22,8 @@ def on_message(client, userdata, msg):
     received_msg = msg_decode
 
 
-broker = "123a425d9b0748a39d2d27a7c2d4b7eb.s2.eu.hivemq.cloud"
-broker_port = 8883
+broker = "161.200.199.2"
+broker_port = 1883
 client = mqtt.Client("Client1")
 
 client.on_log = on_log
@@ -29,13 +31,18 @@ client.on_connect = on_connect
 client.on_message = on_message
 
 client.connect(broker, broker_port)
-
-client.publish("Final Exam", "Pierre HOUSSEAUX")
 client.subscribe("Final Exam")
 
-state = "off"
+# RP4 GPIO SETUP
+LED_PIN = 17
+BUTTON_PIN = 2
 
-received_msg=""
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(LED_PIN, GPIO.OUT)
+GPIO.setup(BUTTON_PIN, GPIO.IN)
+
+state = "off"
+received_msg = ""
 while True:
     client.loop_start()
     time.sleep(0.1)
@@ -44,9 +51,22 @@ while True:
     print(received_msg)
     if received_msg == "TOGGLE":
         if state == "off":
-            print("on")
+            GPIO.output(LED_PIN, GPIO.HIGH)
         if state == "on":
-            print("off")
+            GPIO.output(LED_PIN, GPIO.LOW)
+    else:
+        GPIO.output(LED_PIN, GPIO.LOW)
+        # if Button is pressed
+        if GPIO.input(BUTTON_PIN) == GPIO.HIGH:
+            # Publish Pierre HOUSSEAUX to Final Exam
+            client.publish("Final Exam", "Pierre HOUSSEAUX")
+            # Led Blinking
+            GPIO.output(LED_PIN, GPIO.HIGH)
+            state = "on"
+            time.sleep(0.1)
+        else:
+            state = "off"
 
 client.loop_stop()
 client.disconnect()
+GPIO.cleanup()

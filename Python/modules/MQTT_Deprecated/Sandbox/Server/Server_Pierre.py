@@ -34,7 +34,7 @@ def on_subscribe(client, userdata, mid, granted_qos, properties=None):
 def on_message(client, userdata, msg):
     print(msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
 
-# using MQTT version 5 here, for 3.1.1: MQTTv311, 3.1: MQTTv31
+# using MQTT_Deprecated version 5 here, for 3.1.1: MQTTv311, 3.1: MQTTv31
 # userdata is user defined data of any type, updated by user_data_set()
 # client_id is the given name of the client
 client = paho.Client(client_id="", userdata=None, protocol=paho.MQTTv5)
@@ -48,7 +48,7 @@ client.username_pw_set("Pierre", "Ilovemqtt")
 
 broker = "123a425d9b0748a39d2d27a7c2d4b7eb.s2.eu.hivemq.cloud"
 broker_port = 8883
-# connect to HiveMQ Cloud on port 8883 (default for MQTT)
+# connect to HiveMQ Cloud on port 8883 (default for MQTT_Deprecated)
 client.connect(broker,broker_port)
 
 # setting callbacks, use separate functions like above for better visibility
