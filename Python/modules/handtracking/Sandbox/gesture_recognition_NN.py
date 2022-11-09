@@ -1,8 +1,13 @@
-import tensorflow as tf
-import pandas as pd
-from Python.modules.handtracking import HandDetector, HandProcessing, Visualisation
+import sys
+import os
+
+PYTHON_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(1, PYTHON_DIR)
 
 import cv2
+import numpy as np
+from modules.handtracking import HandDetector, HandProcessing, Visualisation
+from modules.handtracking.utils import normalized_landmarks
 
 # Detect the presence of a hand
 detector = HandDetector(max_num_hands=2)
@@ -16,39 +21,64 @@ visu = Visualisation()
 # Image feed
 cap = cv2.VideoCapture(0)
 
-def button_pushed(id):
-    print(id)
+cv2.namedWindow("Visualization")
 
+# Path to data and label files
+path_data = "data.npy"
+path_label = "label.npy"
 
-# Creating window
-cv2.namedWindow("TrackBars : Circle detection")
-cv2.resizeWindow("TrackBars : Circle detection", 640, 290)
-cv2.createButton("Sign1",button_pushed,1,cv2.QT_PUSH_BUTTON,1)
+# Try loading matrix
+try:
+    data = np.load(path_data)
+    label = np.load(path_label)
+# Except create matrix
+except:
+    data = None
+    label = None
 
 while True:
-    # Getting image from camera
-    _, image = cap.read()
+    # Getting the key pressed
+    key = cv2.waitKey(1000)
 
-    # Flipping image
-    img = cv2.flip(image, 1)
-
-    # Finding whether at least one hand is present on the picture
-    hand_detected = detector.hands_detection(img)
-
-    # If at least one hand has been detected
-    if hand_detected:
-        # Compute the list of commands associated to each hand
-        commands = interpreter.create_hand_commands(img)
-
-        # Visualisation
-        visu.draw_overlays_all(img, commands)
-
-    cv2.imshow("Image", img)
-    # Press "e" to exit
-    if cv2.waitKey(1) == ord("e"):
-        # Closing windows
+    # If <ESC> is pressed, exit the loop
+    if key == 27:
+        # Closing all cv2 windows
         cv2.destroyAllWindows()
 
-        # Turning off camera
+        # Closing camera
         cap.release()
+
+        # Update dataset ?
+        print("#" * 20)
+        choice = input("Save data ? (y/n) : ")
+        if choice.lower() == "y":
+            np.save(path_data, data)
+            np.save(path_label, label)
+
         break
+
+    # Reading image
+    _, img = cap.read()
+    # Flipping image
+    img = cv2.flip(img, 1)
+
+    # Detecting hands
+    hand_detected = detector.hands_detection(img)
+
+    if hand_detected:
+        commands = interpreter.create_hand_commands(img)
+        landmarks = commands[0].get_numpy_hand_landmarks(False)
+        norm_landmarks = normalized_landmarks(landmarks)
+
+        if key != -1:
+            if data is None:
+                data = np.array([norm_landmarks])
+                label = np.array([chr(key)])
+            else:
+                data = np.append(data, norm_landmarks[np.newaxis], axis=0)
+                label = np.append(label, chr(key))
+            print(data.shape)
+
+        visu.draw_overlays_all(img, commands)
+
+    cv2.imshow("Visualization", img)
