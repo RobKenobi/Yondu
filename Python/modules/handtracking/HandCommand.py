@@ -1,4 +1,5 @@
 import numpy as np
+from .utils import landmarks_to_numpy
 
 
 class HandCommand:
@@ -13,10 +14,8 @@ class HandCommand:
     def get_hand_landmarks(self):
         return self._handLandmarks
 
-    def get_numpy_hand_landmarks(self):
-        for i, landmark in enumerate(self._handLandmarks.landmark):
-            self._numpy_hand_landmarks[i, :] = np.array([landmark.x, landmark.y, landmark.z])
-        return self._numpy_hand_landmarks
+    def get_numpy_hand_landmarks(self, get_z=True):
+        return landmarks_to_numpy(self._handLandmarks.landmark, get_z)
 
     def get_infos(self):
         return self._HandNo, self._handedness, self._position, self._gesture

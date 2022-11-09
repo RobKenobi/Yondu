@@ -1,4 +1,5 @@
 from .HandCommand import HandCommand
+from .utils import landmarks_to_numpy, normalized_landmarks
 import numpy as np
 
 
@@ -12,18 +13,17 @@ class HandProcessing:
 
     def find_position_on_image(self, image, HandNo=0):
         h, w, c = image.shape
-        pos_list = np.zeros((21, 3))
-        for id, pos in enumerate(self._HandDetector.get_result().multi_hand_landmarks[HandNo].landmark):
-            x, y = int(pos.x * w), int(pos.y * h)
-            pos_list[id, 0] = x
-            pos_list[id, 1] = y
+        pose_array = landmarks_to_numpy(self._HandDetector.get_result().multi_hand_landmarks[HandNo].landmark,
+                                        get_z=False)
+        pose_array[:, 0] *= w
+        pose_array[:, 1] *= h
 
-        return pos_list
+        return pose_array.astype('int')
 
     def find_gesture(self):
         # TODO find the hand gesture
         pass
-    
+
     def create_hand_commands(self, image):
         list_HandCommand = list()
         for HandNo, HandLandmarks in enumerate(self._HandDetector.get_result().multi_hand_landmarks):
