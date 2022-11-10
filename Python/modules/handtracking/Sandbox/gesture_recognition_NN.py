@@ -19,7 +19,8 @@ signs = {
     "e": 5,  # thumb and pinky up
     "s": 6,  # thumb, index and pinky up
     "u": 7,  # index and pinky up
-    "k": 8  # index and thumb joined
+    "k": 8,  # index and thumb joined
+    "t": 9  # italian sign
 }
 
 # Hand signs description dictionary
@@ -32,7 +33,8 @@ signs_description = {
     "e": "thumb and pinky up",
     "s": "thumb, index and pinky up",
     "u": "index and pinky up",
-    "k": "index and thumb joined"
+    "k": "index and thumb joined",
+    "t": "italian sign"
 }
 
 
