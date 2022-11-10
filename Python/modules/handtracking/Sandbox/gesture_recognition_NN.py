@@ -92,6 +92,16 @@ else:
     data_right = None
     label_right = None
 
+# Printing sentence
+print("This program goal is to build the training and testing datasets.\n"
+      "To do so, you will have to do hand sign and press the corresponding key on your keyboard.\n"
+      "These are the signs we are going to recognize with the key you have to press :\n\n")
+for sign in signs_description:
+    print(sign, " : ", signs_description[sign])
+
+print("\nIf you don't remember which key to press, just press <h> or <enter>")
+print("To exit the program, press <ESC>")
+
 # Starting the infinite loop
 while True:
     # Getting the key pressed
@@ -106,6 +116,7 @@ while True:
         cap.release()
 
         # Update dataset ?
+        print("\n If you have made a mistake, don't save the data !\n")
         print("#" * 20)
         choice = input("Save data ? (y/n) : ")
         if choice.lower() == "y":
