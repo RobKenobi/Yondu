@@ -1,4 +1,4 @@
-# MQTT SETUP
+# MQTT_Deprecated SETUP
 import time
 import paho.mqtt.client as mqtt
 
@@ -20,8 +20,8 @@ def on_message(client, userdata, msg):
     received_msg = msg_decode
 
 
-broker = "broker.mqttdashboard.com"
-broker_port = 1883
+broker = "123a425d9b0748a39d2d27a7c2d4b7eb.s2.eu.hivemq.cloud"
+broker_port = 8883
 client = mqtt.Client("Client1")
 
 client.on_log = on_log
@@ -50,4 +50,3 @@ while True:
 
 client.loop_stop()
 client.disconnect()
-GPIO.cleanup()

@@ -137,3 +137,4 @@ slprj/
 
 # Pycharm
 .idea/
+__pycache__
