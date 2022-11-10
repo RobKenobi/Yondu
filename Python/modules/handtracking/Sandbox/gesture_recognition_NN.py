@@ -9,6 +9,50 @@ import numpy as np
 from modules.handtracking import HandDetector, HandProcessing, Visualisation
 from modules.handtracking.utils import normalized_landmarks
 
+# Hand signs dictionary
+signs = {
+    "o": 0,  # Open hand
+    "c": 1,  # Closed hand
+    "i": 2,  # index up
+    "f": 3,  # middle finger up
+    "v": 4,  # index and middle finger up
+    "e": 5,  # thumb and pinky up
+    "s": 6,  # thumb, index and pinky up
+    "u": 7,  # index and pinky up
+    "k": 8  # index and thumb joined
+}
+
+# Hand signs description dictionary
+signs_description = {
+    "o": "Open hand",
+    "c": "Closed hand",
+    "i": "index up",
+    "f": "middle finger up",
+    "v": "index and middle finger up",
+    "e": "thumb and pinky up",
+    "s": "thumb, index and pinky up",
+    "u": "index and pinky up",
+    "k": "index and thumb joined"
+}
+
+
+def add_to_dataset(data, label, landmark, key):
+    if chr(key) not in signs.keys():
+        print("Unknown key")
+        for sign in signs_description:
+            print(sign, " : ", signs_description[sign])
+        return data, label
+
+    if data is None:
+        data = np.array([landmark])
+        label = np.array([signs[chr(key)]])
+    else:
+        data = np.append(data, landmark[np.newaxis], axis=0)
+        label = np.append(label, signs[chr(key)])
+    print(f"Added sign : {signs_description[chr(key)]}")
+    return data, label
+
+
 # Detect the presence of a hand
 detector = HandDetector(max_num_hands=2)
 
@@ -24,18 +68,31 @@ cap = cv2.VideoCapture(0)
 cv2.namedWindow("Visualization")
 
 # Path to data and label files
-path_data = "data.npy"
-path_label = "label.npy"
+path_data_left = "data_left.npy"
+path_label_left = "label_left.npy"
 
-# Try loading matrix
-try:
-    data = np.load(path_data)
-    label = np.load(path_label)
-# Except create matrix
-except:
-    data = None
-    label = None
+path_data_right = "data_right.npy"
+path_label_right = "label_right.npy"
 
+# Checking if data and label files exist for left hand
+if os.path.exists(path_data_left):
+    data_left = np.load(path_data_left)
+    label_left = np.load(path_label_left)
+# Else creating data and label variables for left hand
+else:
+    data_left = None
+    label_left = None
+
+# Checking if data and label files exist for right hand
+if os.path.exists(path_data_right):
+    data_right = np.load(path_data_right)
+    label_right = np.load(path_label_right)
+# Else creating data and label variables for right hand
+else:
+    data_right = None
+    label_right = None
+
+# Starting the infinite loop
 while True:
     # Getting the key pressed
     key = cv2.waitKey(1000)
@@ -52,8 +109,18 @@ while True:
         print("#" * 20)
         choice = input("Save data ? (y/n) : ")
         if choice.lower() == "y":
-            np.save(path_data, data)
-            np.save(path_label, label)
+            # If data from left hand have been collected
+            if data_left is not None:
+                # Saving data
+                np.save(path_data_left, data_left)
+                # Saving label
+                np.save(path_label_left, label_left)
+            # If data from right hand have been collected
+            if data_right is not None:
+                # Saving data
+                np.save(path_data_right, data_right)
+                # Saving label
+                np.save(path_label_right, label_right)
 
         break
 
@@ -65,19 +132,25 @@ while True:
     # Detecting hands
     hand_detected = detector.hands_detection(img)
 
+    # If a hand is detected
     if hand_detected:
+        # Generating the command objects
         commands = interpreter.create_hand_commands(img)
+        # Retrieving hand landmarks
         landmarks = commands[0].get_numpy_hand_landmarks(False)
+        # Retrieving handedness
+        handedness = commands[0].get_infos()[1]
+        # Normalizing the hand landmarks
         norm_landmarks = normalized_landmarks(landmarks)
 
+        # If a key is pressed
         if key != -1:
-            if data is None:
-                data = np.array([norm_landmarks])
-                label = np.array([chr(key)])
+            # If the left hand has been detected
+            if handedness == "Left":
+                data_left, label_left = add_to_dataset(data_left, label_left, norm_landmarks, key)
+            # If the right hand has been detected
             else:
-                data = np.append(data, norm_landmarks[np.newaxis], axis=0)
-                label = np.append(label, chr(key))
-            print(data.shape)
+                data_right, label_right = add_to_dataset(data_right, label_right, norm_landmarks, key)
 
         visu.draw_overlays_all(img, commands)
 
