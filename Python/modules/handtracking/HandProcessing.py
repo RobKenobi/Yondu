@@ -6,6 +6,20 @@ import numpy as np
 path_model_right = "model_right.hdf5"
 path_model_left = "model_left.hdf5"
 
+# Hand signs description dictionary
+signs_description = {
+    "o": "Open hand",
+    "c": "Closed hand",
+    "i": "index up",
+    "f": "middle finger up",
+    "v": "index and middle finger up",
+    "e": "thumb and pinky up",
+    "s": "thumb, index and pinky up",
+    "u": "index and pinky up",
+    "k": "index and thumb joined",
+    "t": "italian sign"
+}
+
 
 class HandProcessing:
     def __init__(self, HandDetector):
@@ -33,7 +47,7 @@ class HandProcessing:
             prediction = self._gesture_classifier_left.predict(norm[np.newaxis], verbose=0)
         else:
             prediction = self._gesture_classifier_right.predict(norm[np.newaxis], verbose=0)
-        return str(np.argmax(np.squeeze(prediction)))
+        return list(signs_description.values())[np.argmax(np.squeeze(prediction))]
 
     def create_hand_commands(self, image):
         list_HandCommand = list()
