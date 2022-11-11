@@ -26,7 +26,7 @@ class HandProcessing:
         # TODO select model depending on handedness
         pose = landmarks_to_numpy(landmarks.landmark, get_z=False)
         norm = normalized_landmarks(pose)
-        prediction = self._gesture_classifier.predict(norm[np.newaxis])
+        prediction = self._gesture_classifier.predict(norm[np.newaxis], verbose=0)
         return str(np.argmax(np.squeeze(prediction)))
 
     def create_hand_commands(self, image):
