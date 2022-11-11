@@ -1,10 +1,12 @@
+import os.path
+
 import tensorflow as tf
 import numpy as np
 
 # Path definition
-data_path = "data_left.npy"
-label_path = "label_left.npy"
-model_save_path = "model_left.hdf5"
+data_path = "data_right.npy"
+label_path = "label_right.npy"
+model_save_path = "model_right.hdf5"
 
 # Loading data and label
 data = np.load(data_path)
@@ -40,7 +42,7 @@ model = tf.keras.models.Sequential([
 
 # Model checkpoint callback
 cp_callback = tf.keras.callbacks.ModelCheckpoint(
-    model_save_path, verbose=1, save_weights_only=False)
+    model_save_path, verbose=0, save_weights_only=False)
 # Callback for early stopping
 es_callback = tf.keras.callbacks.EarlyStopping(patience=20, verbose=1)
 

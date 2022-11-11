@@ -107,7 +107,7 @@ print("To exit the program, press <ESC>")
 # Starting the infinite loop
 while True:
     # Getting the key pressed
-    key = cv2.waitKey(1000)
+    key = cv2.waitKey(1)
 
     # If <ESC> is pressed, exit the loop
     if key == 27:

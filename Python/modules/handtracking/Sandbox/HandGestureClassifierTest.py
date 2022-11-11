@@ -11,7 +11,7 @@ import tensorflow as tf
 from modules.handtracking import HandDetector, HandProcessing, Visualisation
 from modules.handtracking.utils import normalized_landmarks
 
-model_path = "model_left.hdf5"
+model_path = "model_right.hdf5"
 
 model = tf.keras.models.load_model(model_path)
 
@@ -31,7 +31,7 @@ cv2.namedWindow("Visualization")
 
 while True:
     # Getting the key pressed
-    key = cv2.waitKey(1000)
+    key = cv2.waitKey(1)
 
     # If <ESC> is pressed, exit the loop
     if key == 27:

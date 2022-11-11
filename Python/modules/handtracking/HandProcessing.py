@@ -7,7 +7,7 @@ import numpy as np
 class HandProcessing:
     def __init__(self, HandDetector):
         self._HandDetector = HandDetector
-        self._gesture_classifier = tf.keras.models.load_model("model_left.hdf5")
+        self._gesture_classifier = tf.keras.models.load_model("model_right.hdf5")
 
     def find_handedness(self, HandNo=0):
         handedness = self._HandDetector.get_result().multi_handedness[HandNo].classification[0].label
@@ -22,7 +22,8 @@ class HandProcessing:
 
         return pose_array.astype('int')
 
-    def find_gesture(self, landmarks):
+    def find_gesture(self, landmarks, handedness="left"):
+        # TODO select model depending on handedness
         pose = landmarks_to_numpy(landmarks.landmark, get_z=False)
         norm = normalized_landmarks(pose)
         prediction = self._gesture_classifier.predict(norm[np.newaxis])
@@ -34,5 +35,6 @@ class HandProcessing:
             handedness = self.find_handedness(HandNo)
             position = self.find_position_on_image(image, HandNo)
             gesture = self.find_gesture(HandLandmarks)
+            #gesture = ""
             list_HandCommand.append(HandCommand(HandNo, handedness, position, gesture, HandLandmarks))
         return list_HandCommand
