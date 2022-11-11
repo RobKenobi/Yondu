@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 
 # Selecting which model to build {True, False}
-right_hand = True
+right_hand = False
 
 # Path definition
 data_path = "data_right.npy" if right_hand else "data_left.npy"
