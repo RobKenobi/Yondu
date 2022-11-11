@@ -4,9 +4,9 @@ import tensorflow as tf
 import numpy as np
 
 # Path definition
-data_path = "data_right.npy"
-label_path = "label_right.npy"
-model_save_path = "model_right.hdf5"
+data_path = "data_left.npy"
+label_path = "label_left.npy"
+model_save_path = "model_left.hdf5"
 
 # Loading data and label
 data = np.load(data_path)
