@@ -3,10 +3,13 @@ import os.path
 import tensorflow as tf
 import numpy as np
 
+# Selecting which model to build {True, False}
+right_hand = True
+
 # Path definition
-data_path = "data_right.npy"
-label_path = "label_right.npy"
-model_save_path = "model_right.hdf5"
+data_path = "data_right.npy" if right_hand else "data_left.npy"
+label_path = "label_right.npy" if right_hand else "label_left.npy"
+model_save_path = "model_right.hdf5" if right_hand else "model_left.hdf5"
 
 # Loading data and label
 data = np.load(data_path)

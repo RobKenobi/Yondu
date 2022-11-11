@@ -3,11 +3,15 @@ from .utils import landmarks_to_numpy, normalized_landmarks
 import tensorflow as tf
 import numpy as np
 
+path_model_right = "model_right.hdf5"
+path_model_left = "model_left.hdf5"
+
 
 class HandProcessing:
     def __init__(self, HandDetector):
         self._HandDetector = HandDetector
-        self._gesture_classifier = tf.keras.models.load_model("model_right.hdf5")
+        self._gesture_classifier_right = tf.keras.models.load_model(path_model_right)
+        self._gesture_classifier_left = tf.keras.models.load_model(path_model_left)
 
     def find_handedness(self, HandNo=0):
         handedness = self._HandDetector.get_result().multi_handedness[HandNo].classification[0].label
@@ -23,10 +27,12 @@ class HandProcessing:
         return pose_array.astype('int')
 
     def find_gesture(self, landmarks, handedness="left"):
-        # TODO select model depending on handedness
         pose = landmarks_to_numpy(landmarks.landmark, get_z=False)
         norm = normalized_landmarks(pose)
-        prediction = self._gesture_classifier.predict(norm[np.newaxis], verbose=0)
+        if handedness == "left":
+            prediction = self._gesture_classifier_left.predict(norm[np.newaxis], verbose=0)
+        else:
+            prediction = self._gesture_classifier_right.predict(norm[np.newaxis], verbose=0)
         return str(np.argmax(np.squeeze(prediction)))
 
     def create_hand_commands(self, image):
@@ -35,6 +41,6 @@ class HandProcessing:
             handedness = self.find_handedness(HandNo)
             position = self.find_position_on_image(image, HandNo)
             gesture = self.find_gesture(HandLandmarks)
-            #gesture = ""
+            # gesture = ""
             list_HandCommand.append(HandCommand(HandNo, handedness, position, gesture, HandLandmarks))
         return list_HandCommand
