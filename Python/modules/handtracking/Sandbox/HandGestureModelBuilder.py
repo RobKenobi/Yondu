@@ -37,9 +37,9 @@ NUM_CLASSES = 10
 model = tf.keras.models.Sequential([
     tf.keras.layers.Flatten(input_shape=[21, 2]),
     tf.keras.layers.Dropout(0.2),
-    tf.keras.layers.Dense(20, activation='relu'),
-    tf.keras.layers.Dropout(0.4),
-    tf.keras.layers.Dense(10, activation='relu'),
+    tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dense(32, activation='relu'),
     tf.keras.layers.Dense(NUM_CLASSES, activation='softmax')
 ])
 
