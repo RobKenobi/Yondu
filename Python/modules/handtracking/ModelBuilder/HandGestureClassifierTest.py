@@ -9,11 +9,6 @@ sys.path.insert(1, PYTHON_DIR)
 import cv2
 import tensorflow as tf
 from modules.handtracking import HandDetector, HandProcessing, Visualisation
-from modules.handtracking.utils import normalized_landmarks
-
-model_path = "model_right.hdf5"
-
-model = tf.keras.models.load_model(model_path)
 
 # Detect the presence of a hand
 detector = HandDetector(max_num_hands=2)

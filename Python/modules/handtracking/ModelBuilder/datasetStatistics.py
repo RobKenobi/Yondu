@@ -1,4 +1,6 @@
 import numpy as np
+import sys
+import os
 
 # Hand signs dictionary
 signs = {
@@ -31,7 +33,6 @@ signs_description = {
 sign_nb = dict()
 for key in signs:
     sign_nb[signs[key]] = signs_description[key]
-print(sign_nb)
 
 
 def show_statistics(label, handedness):
@@ -42,10 +43,11 @@ def show_statistics(label, handedness):
     print(f"TOTAL : {len(label)}")
 
 
-data_left = np.load("data_left.npy")
-label_left = np.load("label_left.npy")
-data_right = np.load("data_right.npy")
-label_right = np.load("label_right.npy")
+dataset_left = np.loadtxt("dataset_left.csv", delimiter=',')
+dataset_right = np.loadtxt("dataset_right.csv", delimiter=',')
+
+label_left = dataset_left[:, 0].astype('int')
+label_right = dataset_right[:, 0].astype('int')
 
 show_statistics(label_left, "left")
 show_statistics(label_right, "right")

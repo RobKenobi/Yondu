@@ -131,6 +131,7 @@ dmypy.json
 # MATLAB
 *.slxc
 slprj/
+*.slx.autosave
 
 # Powerpoint
 *~$*

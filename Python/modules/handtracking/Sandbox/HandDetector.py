@@ -50,7 +50,7 @@ class HandDetector():
 
     def find_handeness(self, HandNo=0):
         if self._results.multi_hand_landmarks:
-            handedness = self._results.multi_handedness[HandNo].classification[0].label_left
+            handedness = self._results.multi_handedness[HandNo].classification[0].label
         return handedness
 
     def find_position(self, image, HandNo=0):

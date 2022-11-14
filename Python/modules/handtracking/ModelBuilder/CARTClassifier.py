@@ -1,4 +1,4 @@
-from sklearn import svm
+from sklearn import tree
 import numpy as np
 import pickle
 
@@ -25,7 +25,7 @@ right_hand = False
 
 # Path definition
 dataset_path = "dataset_right.csv" if right_hand else "dataset_left.csv"
-model_path = "SVM_right.sav" if right_hand else "SVM_left.sav"
+model_path = "CART_right.sav" if right_hand else "CART_left.sav"
 
 # Loading dataset
 data, label = load_csv(dataset_path)
@@ -49,8 +49,12 @@ test_label = label[selection[training_split:]]
 
 print(f"Training data shape : {training_data.shape}\nTest data shape : {test_data.shape}")
 
-model = svm.SVR()
+model = tree.DecisionTreeClassifier()
 model.fit(training_data, training_label)
 score = model.score(test_data, test_label)
 
-print(score)
+print(f"Obtained score : {score}")
+
+save_model = input("Save model ? (y/n) ")
+if save_model == "y":
+    pickle.dump(model, open(model_path, "wb"))

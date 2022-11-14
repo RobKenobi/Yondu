@@ -1,4 +1,5 @@
 import numpy as np
+import pickle
 
 
 def landmarks_to_numpy(landmarks, get_z=True):
@@ -21,3 +22,8 @@ def normalized_landmarks(landmarks):
     landmarks_norm = landmarks - np.array([base_x, base_y])
     landmarks_norm /= np.linalg.norm(landmarks_norm)
     return landmarks_norm
+
+
+def load_CART_model(path):
+    model = pickle.load(open(path, "rb"))
+    return model

@@ -9,6 +9,38 @@ import numpy as np
 from modules.handtracking import HandDetector, HandProcessing, Visualisation
 from modules.handtracking.utils import normalized_landmarks
 
+
+def save_to_csv(data, label, path):
+    """
+    This function allows to save the landmarks data and their corresponding label
+    into a csv file.
+    :param data: numpy array of the landmarks
+    :param label: numpy array of the labels
+    :param path: path with the name of the file
+    :return: None
+    """
+    csv_data = data.reshape(len(data), 42)
+    dataset = np.concatenate([label[np.newaxis, csv_data]], axis=1)
+    np.savetxt(path, dataset, delimiter=',')
+
+
+def load_csv(path):
+    """
+    This function allows to load data and label from a csv file
+    :param path: path of the dataset containing the data and the labels
+    :return: tuple of numpy arrays (data, label)
+    """
+    # Load the dataset
+    dataset = np.loadtxt(path, delimiter=',')
+    # Extract the labels as integers
+    label = dataset[:, 0].astype('int')
+    # Extract the data
+    data = dataset[:, 1:]
+    # Reshape the data
+    data = data.reshape(len(data), 21, 2)
+    return data, label
+
+
 # Hand signs dictionary
 signs = {
     "o": 0,  # Open hand
@@ -69,26 +101,20 @@ cap = cv2.VideoCapture(0)
 
 cv2.namedWindow("Visualization")
 
-# Path to data and label files
-path_data_left = "data_left.npy"
-path_label_left = "label_left.npy"
+path_dataset_left = "dataset_left.csv"
+path_dataset_right = "dataset_right.csv"
 
-path_data_right = "data_right.npy"
-path_label_right = "label_right.npy"
-
-# Checking if data and label files exist for left hand
-if os.path.exists(path_data_left):
-    data_left = np.load(path_data_left)
-    label_left = np.load(path_label_left)
+# Checking if dataset exists for left hand
+if os.path.exists(path_dataset_left):
+    data_left, label_left = load_csv(path_dataset_left)
 # Else creating data and label variables for left hand
 else:
     data_left = None
     label_left = None
 
-# Checking if data and label files exist for right hand
-if os.path.exists(path_data_right):
-    data_right = np.load(path_data_right)
-    label_right = np.load(path_label_right)
+# Checking if dataset exists for right hand
+if os.path.exists(path_dataset_right):
+    data_right, label_right = load_csv(path_dataset_right)
 # Else creating data and label variables for right hand
 else:
     data_right = None
@@ -124,16 +150,10 @@ while True:
         if choice.lower() == "y":
             # If data from left hand have been collected
             if data_left is not None:
-                # Saving data
-                np.save(path_data_left, data_left)
-                # Saving label
-                np.save(path_label_left, label_left)
+                save_to_csv(data_left, label_left, path_dataset_left)
             # If data from right hand have been collected
             if data_right is not None:
-                # Saving data
-                np.save(path_data_right, data_right)
-                # Saving label
-                np.save(path_label_right, label_right)
+                save_to_csv(data_right, label_right, path_dataset_right)
 
         break
 
@@ -148,7 +168,7 @@ while True:
     # If a hand is detected
     if hand_detected:
         # Generating the command objects
-        commands = interpreter.create_hand_commands(img)
+        commands = interpreter.create_hand_commands(img, find_gesture=False)
         # Retrieving hand landmarks
         landmarks = commands[0].get_numpy_hand_landmarks(False)
         # Retrieving handedness
