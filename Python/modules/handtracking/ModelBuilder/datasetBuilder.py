@@ -93,11 +93,15 @@ signs_description = {
 }
 
 
+def show_keys():
+    for sign in signs_description:
+        print(sign, " : ", signs_description[sign])
+
+
 def add_to_dataset(data, label, landmark, key):
     if chr(key) not in signs.keys():
         print("Unknown key")
-        for sign in signs_description:
-            print(sign, " : ", signs_description[sign])
+        show_keys()
         return data, label
 
     if data is None:
@@ -106,7 +110,7 @@ def add_to_dataset(data, label, landmark, key):
     else:
         data = np.append(data, landmark[np.newaxis], axis=0)
         label = np.append(label, signs[chr(key)])
-    print(f"Added sign : {signs_description[chr(key)]}")
+    print(f"{signs_description[chr(key)]}")
     return data, label
 
 
@@ -182,6 +186,11 @@ while True:
 
         break
 
+    # If <h> is pressed
+    if key == ord("h"):
+        # Show help
+        show_keys()
+
     # Reading image
     _, img = cap.read()
     # Flipping image
@@ -203,9 +212,11 @@ while True:
         if key != -1:
             # If the left hand has been detected
             if handedness == "Left":
+                print("Left hand \t:\t ", end="")
                 data_left, label_left = add_to_dataset(data_left, label_left, norm_landmarks, key)
             # If the right hand has been detected
             else:
+                print("Right hand \t:\t ", end="")
                 data_right, label_right = add_to_dataset(data_right, label_right, norm_landmarks, key)
 
         visu.draw_overlays_all(img, commands)
