@@ -6,9 +6,8 @@ sys.path.insert(1, PYTHON_DIR)
 
 import cv2
 import numpy as np
-from modules.handtracking import HandDetector, HandProcessing, Visualisation
-from modules.handtracking.utils import normalized_landmarks
 
+# TODO : import all the boring stuffs
 
 def save_to_csv(data, label, path):
     """
