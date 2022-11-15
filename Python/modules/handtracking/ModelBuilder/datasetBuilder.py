@@ -7,7 +7,26 @@ sys.path.insert(1, PYTHON_DIR)
 import cv2
 import numpy as np
 
-# TODO : import all the boring stuffs
+from modules.handtracking import HandDetector, HandProcessing, Visualisation
+
+
+def normalized_landmarks(landmarks):
+    """
+    This functions converts a numpy array of the hand landmarks into
+    a numpy array of the normalized hand landmarks. Hence, the hand sign
+    is independent of the hand size and position.
+    :param landmarks: numpy array of the hand landmarks positions
+    :return: numpy array of the normalized hand landmarks positions.
+    """
+
+    # Setting the wrist landmark position as the reference point
+    base_x, base_y = landmarks[0, 0], landmarks[0, 1]
+    # Positioning the other landmarks in the wrist frame
+    landmarks_norm = landmarks - np.array([base_x, base_y])
+    # Normalizing the positions
+    landmarks_norm /= np.linalg.norm(landmarks_norm)
+    return landmarks_norm
+
 
 def save_to_csv(data, label, path):
     """
@@ -18,8 +37,13 @@ def save_to_csv(data, label, path):
     :param path: path with the name of the file
     :return: None
     """
+    # Reshaping the data array
     csv_data = data.reshape(len(data), 42)
-    dataset = np.concatenate([label[np.newaxis, csv_data]], axis=1)
+    # Reshaping the label array
+    csv_label = label.reshape(len(label), 1)
+    # Concatenating the label and data
+    dataset = np.concatenate([csv_label, csv_data], axis=1)
+    # Saving the dataset
     np.savetxt(path, dataset, delimiter=',')
 
 
@@ -105,6 +129,7 @@ path_dataset_right = "dataset_right.csv"
 
 # Checking if dataset exists for left hand
 if os.path.exists(path_dataset_left):
+    print("Loading left dataset")
     data_left, label_left = load_csv(path_dataset_left)
 # Else creating data and label variables for left hand
 else:
@@ -113,6 +138,7 @@ else:
 
 # Checking if dataset exists for right hand
 if os.path.exists(path_dataset_right):
+    print("Loading right dataset")
     data_right, label_right = load_csv(path_dataset_right)
 # Else creating data and label variables for right hand
 else:
@@ -168,12 +194,10 @@ while True:
     if hand_detected:
         # Generating the command objects
         commands = interpreter.create_hand_commands(img, find_gesture=False)
-        # Retrieving hand landmarks
-        landmarks = commands[0].get_numpy_hand_landmarks(False)
+        # Retrieving normalized hand landmarks
+        norm_landmarks = commands[0].get_normalized_landmarks(False)
         # Retrieving handedness
         handedness = commands[0].get_infos()[1]
-        # Normalizing the hand landmarks
-        norm_landmarks = normalized_landmarks(landmarks)
 
         # If a key is pressed
         if key != -1:

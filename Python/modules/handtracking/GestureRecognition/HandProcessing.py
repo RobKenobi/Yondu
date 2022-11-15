@@ -96,7 +96,11 @@ class HandCommand:
         return self._handLandmarks
 
     def get_numpy_hand_landmarks(self, get_z=True):
-        return landmarks_to_numpy(self._handLandmarks, get_z)
+        return landmarks_to_numpy(self._handLandmarks.landmark, get_z)
+
+    def get_normalized_landmarks(self, get_z):
+        landmarks = self.get_numpy_hand_landmarks(get_z)
+        return normalized_landmarks(landmarks)
 
     def get_infos(self):
         return self._HandNo, self._handedness, self._position, self._gesture
