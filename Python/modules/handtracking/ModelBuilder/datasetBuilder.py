@@ -1,6 +1,7 @@
 import sys
 import os
 
+# Updating path
 PYTHON_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 sys.path.insert(1, PYTHON_DIR)
 

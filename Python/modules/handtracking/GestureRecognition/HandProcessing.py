@@ -22,7 +22,7 @@ signs_description = {
 }
 
 
-def landmarks_to_numpy(landmarks, get_z=True):
+def landmarks_to_numpy(landmarks, get_z=False):
     """
     This function converts a set of landmarks into a numpy array with each line corresponding to a landmark
     This matrix has 3 columns if the parameter get_z is True, otherwise 2.
