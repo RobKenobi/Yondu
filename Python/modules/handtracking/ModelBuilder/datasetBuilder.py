@@ -67,19 +67,17 @@ def load_csv(path):
 
 # Hand signs dictionary
 signs = {
-    "o": 0,  # Open hand front palm
-    "b": 1,  # Open hand back palm
-    "c": 2,  # Closed hand
-    "i": 3,  # index up
-    "p": 4,  # thumb up
-    "v": 5,  # index and middle finger up
-    "k": 6,  # index and thumb joined
+    "o": 0,  # Open hand
+    "c": 1,  # Closed hand
+    "i": 2,  # index up
+    "p": 3,  # thumb up
+    "v": 4,  # index and middle finger up
+    "k": 5,  # index and thumb joined
 }
 
 # Hand signs description dictionary
 signs_description = {
-    "o": "Open hand front palm",
-    "b": "Open hand back palm",
+    "o": "Open hand",
     "c": "Closed hand",
     "i": "index up",
     "p": "thumb up",
