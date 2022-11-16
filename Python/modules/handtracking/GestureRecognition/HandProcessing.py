@@ -9,16 +9,13 @@ path_model_left = DIR + "\CART_left.sav"
 
 # Hand signs description dictionary
 signs_description = {
-    "o": "Open hand",
+    "o": "Open hand front palm",
+    "b": "Open hand back palm",
     "c": "Closed hand",
     "i": "index up",
-    "f": "middle finger up",
+    "p": "thumb up",
     "v": "index and middle finger up",
-    "e": "thumb and pinky up",
-    "s": "thumb, index and pinky up",
-    "u": "index and pinky up",
-    "k": "index and thumb joined",
-    "t": "italian sign"
+    "k": "index and thumb joined"
 }
 
 
