@@ -1,4 +1,11 @@
 # HOW TO FEED THE DATASET FOR CART CLASSIFIER
+* ### STEP 0 : Change of branch
+You'll have to change the branch you are working on.
+Open git bash in the project directory on your computer, then copy-paste
+the following command :
+```
+git checkout robinson_gesture_recognition_NN
+```
 
 * ### STEP 1 : *datasetBuilder.py* [ModelBuilder]
 
@@ -41,15 +48,26 @@ TOTAL : 600
  - Nb: 100 	index and thumb joined  
 TOTAL : 600
 ```
+**Make sure that the number of data for each sign and for each hand is the same.**  
 In case you saved too many data and you want to delete some of them, 
-use the following .csv files (in ModelBuilder): `dataset_left.csv`
-and `dataset_right.csv`. You will just need to select and delete 
-the unwanted lines.  
+use the following CSV files (in `ModelBuilder`): 
+* `dataset_left.csv`
+* `dataset_right.csv`  
 
-* ### STEP 3 : Commit and push your work to the git.
+You will just need to select and delete 
+the unwanted lines.
 
-* ### STEP 4 : Be careful when pulling the project files !
+* ### STEP 3 : Pull
+Try to pull the work online.
 
-When you pull, some conflicts may occur, especially on the datasets' files
+When you pull, some conflicts may occur, especially on the dataset files
 (`dataset_left.csv` and `dataset_right.csv`) when people work on them
-at the same time. So you should merge the file using the tool provided by PyCharm.
+at the same time.  
+So you should merge the file using the merging tool provided by PyCharm.
+This tool pop-up automatically when you pull and you have conflicts.
+When you merge, you need to accept your changes and the changes made by the others 
+which are causing the conflict.
+
+
+* ### STEP 4 : Commit and push your work to the git.
+Commit your work with a message containing your name and push your work.
