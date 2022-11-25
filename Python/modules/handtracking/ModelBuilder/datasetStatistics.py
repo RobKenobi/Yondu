@@ -1,5 +1,5 @@
 import numpy as np
-
+import os
 # Hand signs dictionary
 signs = {
     "o": 0,  # Open hand
