@@ -1,6 +1,7 @@
-import numpy as np
 import os
 import pickle
+
+import numpy as np
 
 # Path to model files
 DIR = os.path.dirname(os.path.abspath(__file__))
@@ -104,8 +105,6 @@ class HandCommand:
 
 class HandProcessing:
     def __init__(self, HandDetector):
-        self._gesture_classifier_right = None
-        self._gesture_classifier_left = None
         self._HandDetector = HandDetector
 
         self._gesture_classifier_right = load_CART_model(path_model_right)
