@@ -22,6 +22,6 @@ if(open_start_content)
     % Parameters
     Parameters;
     % Open Model
-    drone_build 
+    Drone_build 
     % Open Exercises
 end
