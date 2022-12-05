@@ -7,9 +7,11 @@ planedepth = 0.1;       % m
 
 % Size of the walls
 wally = 4;      % m
-wallz = 2.5;        %m
-walldepth = 0.1;        %m
+wallz = 2.5;        % m
+walldepth = 0.1;        % m
 
+% Drone initial position
+dronez = 0.2;       % m 
 %% Drone Properties
 
 % Material used
