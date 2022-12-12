@@ -7,22 +7,28 @@ import numpy as np
 # broker_port = 8883
 
 # broker = "broker.hivemq.com"
-# broker = "mqtt.eclipseprojects.io"
+broker = "mqtt.eclipseprojects.io"
 
 userName = "HyUKLhwYGxslPTYuIBgyJQY"
 clientID = "HyUKLhwYGxslPTYuIBgyJQY"
 password = "DBc10E6UGVFNoc/lTpbLmyjG"
 
-broker = "mqtt3.thingspeak.com"
+# broker = "mqtt3.thingspeak.com"
 broker_port = 1883
 
 client = mqtt.Client(client_id=clientID, )
 
 client.connect(broker, broker_port)
 
-while True:
-    number = random.randint(0, 10)
-    client.publish("rand", number)
+# while True:
+    # number = random.randint(0, 10)
+
+for i in range(100):
+    number=0
+    if i == 10:
+        number=1
+
+    client.publish("takeoff", number)
     # client.publish("Test_mqtt/string", "Pierre")
     print("I pub", number)
     time.sleep(1)
