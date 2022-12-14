@@ -18,6 +18,24 @@ signs_description = {
     "k": "index and thumb joined"
 }
 
+signs_association_left = {
+    "Open hand": "takeoff",
+    "Closed hand": "stop",
+    "index up": "vx",
+    "thumb up": "landing",
+    "index and middle finger up": "vz",
+    "index and thumb joined": "vy"
+}
+
+signs_association_right = {
+    "Open hand": "takeoff",
+    "Closed hand": "stop",
+    "index up": "vy",
+    "thumb up": "landing",
+    "index and middle finger up": "v_yaw",
+    "index and thumb joined": "vx"
+}
+
 
 def landmarks_to_numpy(landmarks, get_z=False):
     """
@@ -124,14 +142,19 @@ class HandProcessing:
 
         return pose_array.astype('int')
 
-    def find_gesture(self, landmarks, handedness="left"):
+    def find_gesture(self, landmarks, handedness):
         pose = landmarks_to_numpy(landmarks, get_z=False)
         norm = normalized_landmarks(pose).reshape(1, 42)
-        if handedness == "left":
+        if handedness == "Left":
             prediction = self._gesture_classifier_left.predict(norm)
+            gest = list(signs_description.values())[int(prediction)]
+            return signs_association_left[gest]
         else:
             prediction = self._gesture_classifier_right.predict(norm)
-        return list(signs_description.values())[int(prediction)]
+            gest = list(signs_description.values())[int(prediction)]
+            return signs_association_right[gest]
+
+
 
     def create_hand_commands(self, image, find_gesture=True):
         list_HandCommand = list()
@@ -139,7 +162,7 @@ class HandProcessing:
             handedness = self.find_handedness(HandNo)
             position = self.find_position_on_image(image, HandNo)
             if find_gesture:
-                gesture = self.find_gesture(HandLandmarks.landmark)
+                gesture = self.find_gesture(HandLandmarks.landmark, handedness)
             else:
                 gesture = ""
             list_HandCommand.append(HandCommand(

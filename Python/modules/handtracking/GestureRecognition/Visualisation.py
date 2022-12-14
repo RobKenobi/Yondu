@@ -1,6 +1,6 @@
+import cv2
 import mediapipe as mp
 import numpy as np
-import cv2
 
 
 class Visualisation:
@@ -29,8 +29,10 @@ class Visualisation:
             x2 = int(np.max(x_coord) + padding)
             y2 = int(np.max(y_coord) + padding)
             cv2.rectangle(image, (x1, y1), (x2, y2), (211, 93, 63), 3)
+            cv2.circle(image, (int((x1 + x2) / 2), int((y1 + y2) / 2)), 3, (0, 255, 0), 3)
 
             cv2.rectangle(image, (x1 - 2, y1 - 20), (x2 + 2, y1), (211, 93, 63), -1)
+
             cv2.putText(image, handedness + " : " + gesture, (x1, y1 - 4), cv2.FONT_HERSHEY_COMPLEX,
                         0.6, (255, 255, 255), thickness=1)
 
