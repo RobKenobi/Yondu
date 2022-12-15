@@ -92,7 +92,7 @@ while True:
             if time.time() - last_time > Time_period:
                 commands_to_send = list()
                 for command in commands:
-                    _, handedness, position, gesture = command.get_infos()
+                    _, _, position, gesture = command.get_infos()
 
                     position = (np.min(position[:, 1]) + np.max(position[:, 1])) / 2
                     action = 1 if position < height * 0.3 else -1 if position > height * 0.6 else 0
