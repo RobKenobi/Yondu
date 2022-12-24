@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+*.pyc
 *.py[cod]
 *$py.class
 
@@ -131,9 +132,12 @@ dmypy.json
 # MATLAB
 *.slxc
 slprj/
+*.autosave
+*.slx.autosave
 
 # Powerpoint
 *~$*
 
 # Pycharm
 .idea/
+__pycache__

@@ -11,7 +11,6 @@ import cv2
 cap = cv2.VideoCapture(0)
 detector = ht.HandDetector(max_num_hands=1)
 
-
 while True:
     success, img = cap.read()
     img = cv2.flip(img, 1)
