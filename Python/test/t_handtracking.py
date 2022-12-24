@@ -39,8 +39,8 @@ while True:
         visu.draw_overlays_all(img, commands)
 
     cv2.imshow("Image", img)
-    # Press "e" to exit
-    if cv2.waitKey(1) == ord("e"):
+    # Press <ESC> to exit
+    if cv2.waitKey(1) == 27:
         # Closing windows
         cv2.destroyAllWindows()
 

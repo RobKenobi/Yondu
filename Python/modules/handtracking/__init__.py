@@ -1,4 +1,3 @@
-from .HandDetector import HandDetector
-from .HandCommand import HandCommand
-from .HandProcessing import HandProcessing
-from .Visualisation import Visualisation
+from .GestureRecognition.HandProcessing import HandProcessing
+from .GestureRecognition.HandDetector import HandDetector
+from .GestureRecognition.Visualisation import Visualisation
