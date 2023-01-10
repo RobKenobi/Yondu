@@ -46,11 +46,32 @@ visu = Visualisation()
 cap = cv2.VideoCapture(0)
 
 # Communication initialisation
-BROKER = "mqtt.eclipseprojects.io"
+BROKER = "broker.hivemq.com"
 BROKER_PORT = 1883
+MAIN_TOPIC = "YONDU/DroneCommand/"
+connected_to_broker = False
 
-client = Client()
+
+def callback_on_connect(client, userdata, flags, rc):
+    if rc == 0:
+        print("\nConnected to the broker")
+        global connected_to_broker
+        connected_to_broker = True
+    else:
+        print("\nConnection failed")
+        exit(1)
+
+
+client = Client("Camera", clean_session=False)
+client.on_connect = callback_on_connect
 client.connect(BROKER, BROKER_PORT)
+client.loop_start()
+
+i = 0
+while not connected_to_broker:
+    print("\rConnecting to the broker", i * ".", end="")
+    time.sleep(0.01)
+    i = (i + 1) % 4
 
 last_time = time.time()
 Time_period = 0.5
@@ -64,6 +85,12 @@ while True:
         cv2.destroyAllWindows()
         # Turning off the camera
         cap.release()
+
+        # Asking the drone to land
+        client.publish("YONDU/DroneCommand/landing", 1)
+
+        # Disconnecting from the broker
+        client.disconnect()
         break
 
     read_image, img = cap.read()
@@ -100,7 +127,7 @@ while True:
                     commands_to_send.append((gesture, action))
 
                     # Publishing commands
-                    client.publish("YONDU/DroneCommand/"+gesture, action)
+                    client.publish("YONDU/DroneCommand/" + gesture, action, qos=2)
                 last_time = time.time()
 
         cv2.imshow("Image", img)
