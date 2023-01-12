@@ -74,7 +74,7 @@ while not connected_to_broker:
     i = (i + 1) % 4
 
 last_time = time.time()
-Time_period = 0.5
+Time_period = 2
 
 while True:
 

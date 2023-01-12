@@ -17,8 +17,13 @@ MAIN_TOPIC = "YONDU/DroneCommand/"
 # Drone
 drone = Tello()
 flying = False
-DISTANCE = 40  # cm
-ANGLE = 20  # degree
+SPEED = 20  # cm/s
+ANGLE = 10  # degree/s
+
+vx = 0
+vy = 0
+vz = 0
+v_yaw = 0
 
 """
     Defining communication callbacks
@@ -39,7 +44,7 @@ def callback_on_connect(client, userdata, flags, rc):
 
 
 def callback_on_message(client, userdata, msg):
-    global flying, drone
+    global flying, drone, vx, vy, vz, v_yaw
     topic = msg.topic.split("/")[-1]
     payload = int(str(msg.payload.decode("utf-8")))
 
@@ -52,37 +57,42 @@ def callback_on_message(client, userdata, msg):
         if topic == "landing":
             drone.land()
             flying = False
-        
+
+        if topic == "stop":
+            vx = 0
+            vy = 0
+            vz = 0
+            v_yaw = 0
 
         elif topic == "vx":
             if payload > 0:
-                drone.move_forward(DISTANCE)
+                vx = SPEED
             elif payload < 0:
-                drone.move_back(DISTANCE)
+                vx = - SPEED
             else:
-                pass
+                vx = 0
 
         elif topic == "vy":
             if payload > 0:
-                drone.move_right(DISTANCE)
+                vy = SPEED
             elif payload < 0:
-                drone.move_left(DISTANCE)
+                vy = -SPEED
             else:
-                pass
+                vy = 0
         elif topic == "vz":
             if payload > 0:
-                drone.move_up(DISTANCE)
+                vz = SPEED
             elif payload < 0:
-                drone.move_down(DISTANCE)
+                vz = - SPEED
             else:
-                pass
+                vz = 0
         elif topic == "v_yaw":
             if payload > 0:
-                drone.rotate_counter_clockwise(ANGLE)
+                v_yaw = ANGLE
             if payload < 0:
-                drone.rotate_clockwise(ANGLE)
+                v_yaw = - ANGLE
             else:
-                pass
+                v_yaw = 0
 
 
 def callback_on_disconnect(client, userdata, rc):
@@ -119,8 +129,9 @@ drone.connect()
 
 try:
     while True:
+        drone.send_rc_control(vy, vx, vz, v_yaw)
         print("\rBattery level : ", drone.get_battery(), " %", end="")
-        time.sleep(1)
+        time.sleep(0.5)
 
 except KeyboardInterrupt:
     print("Landing drone")
