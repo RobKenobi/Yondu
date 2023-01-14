@@ -17,8 +17,11 @@ MAIN_TOPIC = "YONDU/DroneCommand/"
 # Drone
 drone = Tello()
 flying = False
+flip_left = False
+flip_right= False
+
 SPEED = 20  # cm/s
-ANGLE = 10  # degree/s
+ANGLE = 45  # degree/s
 
 vx = 0
 vy = 0
@@ -44,7 +47,7 @@ def callback_on_connect(client, userdata, flags, rc):
 
 
 def callback_on_message(client, userdata, msg):
-    global flying, drone, vx, vy, vz, v_yaw
+    global flying, drone, vx, vy, vz, v_yaw, flip_left, flip_right
     topic = msg.topic.split("/")[-1]
     payload = int(str(msg.payload.decode("utf-8")))
 
@@ -86,13 +89,23 @@ def callback_on_message(client, userdata, msg):
                 vz = - SPEED
             else:
                 vz = 0
+
         elif topic == "v_yaw":
-            if payload > 0:
+            if payload > 1:
+                print("OOOOOOOOOOOOOOKKKKK")
                 v_yaw = ANGLE
             if payload < 0:
                 v_yaw = - ANGLE
             else:
                 v_yaw = 0
+        
+        elif topic == "flip_right":
+            flip_right = True
+        
+        elif topic == "flip_left":
+            flip_left = True
+        
+        
 
 
 def callback_on_disconnect(client, userdata, rc):
@@ -129,11 +142,20 @@ drone.connect()
 
 try:
     while True:
-        drone.send_rc_control(vy, vx, vz, v_yaw)
-        print("\rBattery level : ", drone.get_battery(), " %", end="")
+        if flip_left :
+            drone.flip_left()
+            flip_left = False
+        elif flip_right :
+            drone.flip_right()
+            flip_right = False
+        else:
+            drone.send_rc_control(vy, vx, vz, v_yaw)
+        
         time.sleep(0.5)
 
 except KeyboardInterrupt:
     print("Landing drone")
+    bat = drone.get_battery()
     drone.end()
+    print("\n\n Battery level ", bat, " %")
     client.disconnect()

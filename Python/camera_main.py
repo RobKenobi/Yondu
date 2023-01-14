@@ -21,7 +21,7 @@ signs_association_left = {
     "index up": "vx",
     "thumb up": "landing",
     "index and middle finger up": "vz",
-    "index and thumb joined": "vy"
+    "index and thumb joined": "flip_left"
 }
 
 signs_association_right = {
@@ -30,7 +30,7 @@ signs_association_right = {
     "index up": "vy",
     "thumb up": "landing",
     "index and middle finger up": "v_yaw",
-    "index and thumb joined": "vx"
+    "index and thumb joined": "flip_right"
 }
 
 # Detect the presence of a hand
