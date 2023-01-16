@@ -51,8 +51,7 @@ def callback_on_message(client, userdata, msg):
     else:
         if topic == "landing":
             drone.land()
-            flying = False
-        
+            flying = False 
 
         elif topic == "vx":
             if payload > 0:

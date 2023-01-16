@@ -92,18 +92,11 @@ def callback_on_message(client, userdata, msg):
 
         elif topic == "v_yaw":
             if payload > 1:
-                print("OOOOOOOOOOOOOOKKKKK")
                 v_yaw = ANGLE
             if payload < 0:
                 v_yaw = - ANGLE
             else:
                 v_yaw = 0
-        
-        elif topic == "flip_right":
-            flip_right = True
-        
-        elif topic == "flip_left":
-            flip_left = True
         
         
 
